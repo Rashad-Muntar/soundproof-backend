@@ -7,4 +7,5 @@ import (
 
 func UserRoute(router *gin.Engine){
 	router.POST("/auth/signup", controllers.Signup)
+	router.POST("/auth/login", controllers.Login)
 }
