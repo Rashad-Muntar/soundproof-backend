@@ -1,9 +1,10 @@
 version: '4.20.0'
 
 services:
-  web:
+  api:
     build: .
     ports:
-      - "3000:3000"
+      - "8080:8080"
     volumes:
       - .:/usr/src/app
+    command: go run main.go
