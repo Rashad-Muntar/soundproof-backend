@@ -6,8 +6,6 @@ import (
 	"os"
 	"time"
 
-	// "strings"
-
 	"github.com/Rashad-Muntar/soundproof/config"
 	"github.com/Rashad-Muntar/soundproof/models"
 	"github.com/gin-gonic/gin"
@@ -17,9 +15,9 @@ import (
 
 func Signup(c *gin.Context) {
 	var body struct {
-		Name     string
-		Email    string
-		Password string
+		Name     string `json:"name" binding:"required"`
+		Email    string `json:"email" binding:"required"`
+		Password string `json:"password" binding:"required"`
 	}
 	if c.Bind(&body) != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -27,22 +25,28 @@ func Signup(c *gin.Context) {
 		})
 		return
 	}
-	if body.Name == "" {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "Name is required",
-		})
-		return
-	} else if body.Email == "" {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "Email is required",
-		})
-		return
-	} else if body.Password == "" {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "Password is required",
-		})
-		return
-	}
+	// if c.Bind(&body) != nil {
+	// 	c.JSON(http.StatusBadRequest, gin.H{
+	// 		"error": "Failed to read body",
+	// 	})
+	// 	return
+	// }
+	// if body.Name == "" {
+	// 	c.JSON(http.StatusBadRequest, gin.H{
+	// 		"error": "Name is required",
+	// 	})
+	// 	return
+	// } else if body.Email == "" {
+	// 	c.JSON(http.StatusBadRequest, gin.H{
+	// 		"error": "Email is required",
+	// 	})
+	// 	return
+	// } else if body.Password == "" {
+	// 	c.JSON(http.StatusBadRequest, gin.H{
+	// 		"error": "Password is required",
+	// 	})
+	// 	return
+	// }
 	bcryptPassword, err := bcrypt.GenerateFromPassword([]byte(body.Password), bcrypt.DefaultCost)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -96,7 +100,7 @@ func Login(c *gin.Context) {
 	})
 
 	tokenString, err := token.SignedString([]byte(os.Getenv("JWT_SECRET")))
-	
+
 	fmt.Println(tokenString, err)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -106,6 +110,6 @@ func Login(c *gin.Context) {
 	}
 	Bearer := "Bearer " + tokenString
 	c.SetSameSite(http.SameSiteLaxMode)
-	c.SetCookie("Authorization", Bearer, 3600 * 24 * 30, "",  "", false, true)
+	c.SetCookie("Authorization", Bearer, 3600*24*30, "", "", false, true)
 	c.JSON(200, Bearer)
 }
