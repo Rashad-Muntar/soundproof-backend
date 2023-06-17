@@ -32,8 +32,10 @@ func UpdateProfile(c *gin.Context) {
 }
 
 func GetProfile(c *gin.Context) {
-	println("User Profile")
-
+	id := c.Param("id")
+	var user models.User
+	config.DB.First(&user, id)
+	c.JSON(200, &user)
 }
 
 
