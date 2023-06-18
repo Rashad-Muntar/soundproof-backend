@@ -1,10 +1,9 @@
 package main
 
 import (
-
 	"github.com/Rashad-Muntar/soundproof/config"
-	"github.com/gin-gonic/gin"
 	"github.com/Rashad-Muntar/soundproof/routes"
+	"github.com/gin-gonic/gin"
 )
 
 func init() {

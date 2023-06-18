@@ -44,6 +44,7 @@ func Signup(c *gin.Context) {
 }
 
 func Login(c *gin.Context) {
+
 	var body struct {
 		Email    string
 		Password string
@@ -63,14 +64,15 @@ func Login(c *gin.Context) {
 		})
 		return
 	}
-	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(body.Password))
-	if err != nil {
+	cryptErr := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(body.Password))
+	
+	if cryptErr != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Invalid email or password",
 		})
 		return
 	}
-  
+
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"sub": user.ID,
 		"exp": time.Now().Add(time.Hour * 24 * 30).Unix(),
@@ -84,8 +86,7 @@ func Login(c *gin.Context) {
 		})
 		return
 	}
-	Bearer := "Bearer " + tokenString
 	c.SetSameSite(http.SameSiteLaxMode)
-	c.SetCookie("Authorization", Bearer, 3600*24*30, "", "", false, true)
-	c.JSON(200, Bearer)
+	c.SetCookie("Authorization", tokenString, 3600*24*30, "", "", false, true)
+	c.JSON(200, tokenString)
 }

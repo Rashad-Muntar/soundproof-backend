@@ -25,7 +25,6 @@ func AuthCheck(c *gin.Context) {
 		return []byte(os.Getenv("JWT_SECRET")), nil
 	})
 	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
-		fmt.Println(claims["sub"], claims["exp"])
 		if float64(time.Now().Unix()) > claims["exp"].(float64) {
 			c.AbortWithStatus(http.StatusUnauthorized)
 		}
