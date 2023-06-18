@@ -52,3 +52,5 @@ At this point, you now have everything you need to properly run the program (sou
 - GitHub: [@Rashad-Muntar](https://github.com/Rashad-Muntar)
 - Twitter - [@RashadToure](https://twitter.com/RashadToure)
 - LinkedIn: [Rashad Muntar](https://www.linkedin.com/in/rashad-muntar/)
+
+👤 **@lovelyrrg**
