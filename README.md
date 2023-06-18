@@ -1,6 +1,6 @@
 # Soundproof-backend
 
-> This GitHub repository provides a robust API implementation for user authentication, utilizing JWT (JSON Web Tokens) for secure authentication and authorization. The API includes endpoints for user registration, login, token management (access token and refresh token), and user profile editing.
+> This GitHub repository provides a robust API implementation for user authentication, utilizing JWT (JSON Web Tokens) for secure authentication and authorization. The API includes endpoints for user registration, login, token management, and user profile editing.
 
 ## Built With
 - Golang
