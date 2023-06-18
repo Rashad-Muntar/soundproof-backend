@@ -16,6 +16,7 @@ func ConnectDB(){
 	if err != nil {
 		panic("failed to connect database")
 	}
+	db.Migrator().DropTable(&models.User{})
 	db.AutoMigrate(&models.User{})
 	DB = db
 }
