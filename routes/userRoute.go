@@ -13,5 +13,5 @@ func UserRoute(router *gin.Engine) {
 	router.POST("/auth/signup", controllers.Signup)
 	router.POST("/auth/login", controllers.Login)
 	router.PUT("/user/:userId", middleware.AuthCheck, controllers.UpdateProfile)
-	router.GET("/user/:userId", middleware.AuthCheck, controllers.GetProfile)
+	router.GET("/user/:id", middleware.AuthCheck, controllers.GetProfile)
 }
