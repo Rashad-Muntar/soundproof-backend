@@ -12,11 +12,6 @@ func init() {
 	config.ConnectDB()
 }
 
-// @title    Soundproof API
-// @version         1.0
-// @description     Soundproof service API in Go using Gin framework
-// @host      localhost:8080
-// @BasePath  /
 func main() {
 	r := gin.New()
 	routes.UserRoute(r)

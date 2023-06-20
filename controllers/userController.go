@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"encoding/hex"
 	"net/http"
 
 	"github.com/Rashad-Muntar/soundproof/config"
@@ -25,11 +26,10 @@ func UpdateProfile(c *gin.Context) {
 		gorm.Model
 		Name      string `json:"name" binding:"required"`
 		Email     string `json:"email" binding:"required"`
-		Network   string `json:"network" binding:"required"`
-		Signature string `json:"public" binding:"required"`
+		Signature string `json:"public"`
 	}
 	var user models.User
-
+	var SignatureKey []byte
 	if err := config.DB.Where("id = ?", c.Param("id")).First(&user).Error; err != nil {
 		c.AbortWithStatusJSON(http.StatusNotFound, gin.H{"error": "record not found"})
 		return
@@ -40,17 +40,20 @@ func UpdateProfile(c *gin.Context) {
 		return
 	}
 
-	key, err := utils.SignAddress(body.Signature)
-
-	if err != nil {
-		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
+	if body.Signature != "" {
+		key, err := utils.SignAddress(body.Signature)
+		if err != nil {
+			c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+		SignatureKey = []byte(key)
 	}
-	updatedPost := models.User{Name: body.Name, Email: body.Email, Signature: key}
+
+	updatedPost := models.User{Name: body.Name, Email: body.Email, Signature: hex.EncodeToString(SignatureKey)}
 	config.DB.Model(&user).Updates(&updatedPost)
 	c.JSON(http.StatusOK, gin.H{"data": user})
-
 }
+
 
 // GetUserbyID   godoc
 // @Summary      Get single user by ID
