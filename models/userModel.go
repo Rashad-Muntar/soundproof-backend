@@ -9,6 +9,6 @@ type User struct {
 	gorm.Model
 	Name string 
 	Email string `gorm:"unique"`
-	Signature string `gorm:"unique"`
+	Public string `gorm:"unique"`
 	Password string `gorm:"not null"`
 }

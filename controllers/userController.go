@@ -41,7 +41,7 @@ func UpdateProfile(c *gin.Context) {
 	}
 
 	if body.Signature != "" {
-		key, err := utils.SignAddress(body.Signature)
+		key, err := utils.UpdateAddress(body.Signature)
 		if err != nil {
 			c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
@@ -49,7 +49,7 @@ func UpdateProfile(c *gin.Context) {
 		SignatureKey = []byte(key)
 	}
 
-	updatedPost := models.User{Name: body.Name, Email: body.Email, Signature: hex.EncodeToString(SignatureKey)}
+	updatedPost := models.User{Name: body.Name, Email: body.Email, Public: hex.EncodeToString(SignatureKey)}
 	config.DB.Model(&user).Updates(&updatedPost)
 	c.JSON(http.StatusOK, gin.H{"data": user})
 }

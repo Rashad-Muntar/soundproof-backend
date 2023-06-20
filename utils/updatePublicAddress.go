@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-func SignAddress(signatureKey string) (string, error) {
+func UpdateAddress(signatureKey string) (string, error) {
 
 	signatureKey = strings.TrimPrefix(signatureKey, "0x")
 
