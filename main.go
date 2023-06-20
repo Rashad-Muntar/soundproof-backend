@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/Rashad-Muntar/soundproof/config"
+	_ "github.com/Rashad-Muntar/soundproof/docs"
 	"github.com/Rashad-Muntar/soundproof/routes"
 	"github.com/gin-gonic/gin"
 )

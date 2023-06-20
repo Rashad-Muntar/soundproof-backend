@@ -12,6 +12,15 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+// Signup	       godoc
+// @Summary      Create a new user
+// @Description  Takes a User JSON and store in DB. Return message.
+// @Tags         users
+// @Accept       json
+// @Produce      json
+// @Param        body  body   models.User  true  "User JSON"
+// @Success      200   {object}  models.User
+// @Router       /auth/signup [post]
 func Signup(c *gin.Context) {
 	var body struct {
 		Name     string `json:"name" binding:"required"`
@@ -43,6 +52,15 @@ func Signup(c *gin.Context) {
 	c.JSON(200, &user)
 }
 
+// Login	       godoc
+// @Summary      Log a new user in
+// @Description  Takes a User JSON and store in DB. Return message.
+// @Tags         users
+// @Accept       json
+// @Produce      json
+// @Param        body  body      models.User  true  "User JSON"
+// @Success      200   {object}  models.User
+// @Router       /auth/login [post]
 func Login(c *gin.Context) {
 
 	var body struct {
@@ -65,7 +83,7 @@ func Login(c *gin.Context) {
 		return
 	}
 	cryptErr := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(body.Password))
-	
+
 	if cryptErr != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Invalid email or password",

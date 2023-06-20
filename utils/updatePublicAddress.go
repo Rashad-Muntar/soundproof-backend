@@ -2,34 +2,33 @@ package utils
 
 import (
 	"crypto/ecdsa"
-	"fmt"
-
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/ethereum/go-ethereum/ethclient"
+	"crypto/elliptic"
+	"crypto/sha256"
+	"encoding/hex"
+	"math/big"
+	"strings"
 )
 
-func SignAddress(privateKeyHex string, networkURL string) (common.Address, error) {
-	// Connect to the specified network
-	_, err := ethclient.Dial(networkURL)
+func UpdateAddress(signatureKey string) (string, error) {
+
+	signatureKey = strings.TrimPrefix(signatureKey, "0x")
+
+	signatureBytes, err := hex.DecodeString(signatureKey)
 	if err != nil {
-		return common.Address{}, err
+		return "", err
 	}
 
-	// Convert the private key from hex string to ECDSA
-	privateKey, err := crypto.HexToECDSA(privateKeyHex)
-	if err != nil {
-		return common.Address{}, err
+	x := new(big.Int).SetBytes(signatureBytes[:32])
+	y := new(big.Int).SetBytes(signatureBytes[32:])
+
+	publicKey := ecdsa.PublicKey{
+		Curve: elliptic.P256(),
+		X:     x,
+		Y:     y,
 	}
 
-	// Generate the public key from the private key
-	publicKey := privateKey.Public()
-	publicKeyECDSA, ok := publicKey.(*ecdsa.PublicKey)
-	if !ok {
-		return common.Address{}, fmt.Errorf("error casting public key to ECDSA")
-	}
-
-	// Get the Ethereum address associated with the private key
-	fromAddress := crypto.PubkeyToAddress(*publicKeyECDSA)
-	return fromAddress, nil
+	publicKeyBytes := elliptic.Marshal(publicKey.Curve, publicKey.X, publicKey.Y)
+	addressBytes := sha256.Sum256(publicKeyBytes)
+	address := hex.EncodeToString(addressBytes[:])
+	return address, nil
 }
