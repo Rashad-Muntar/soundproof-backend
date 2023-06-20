@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/Rashad-Muntar/soundproof/config"
@@ -15,7 +14,7 @@ func UpdateProfile(c *gin.Context) {
 		Name  string `json:"name" binding:"required"`
 		Email string `json:"email" binding:"required"`
         Network string `json:"network" binding:"required"` 
-        Private string `json:"public" binding:"required"`
+        Signature string`json:"public" binding:"required"`
 	}
 	var user models.User
 
@@ -29,13 +28,14 @@ func UpdateProfile(c *gin.Context) {
         c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
         return
     }
-    key, err := utils.SignAddress(body.Private, body.Network)
+
+    key, err := utils.SignAddress(body.Signature)
    
     if err != nil {
         c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
         return
     }
-    updatedPost := models.User{Name: body.Name, Email: body.Email, PublicAddress: key}
+    updatedPost := models.User{Name: body.Name, Email: body.Email, Signature: key}
     config.DB.Model(&user).Updates(&updatedPost)
     c.JSON(http.StatusOK, gin.H{"data": user})
 

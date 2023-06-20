@@ -1,0 +1,9 @@
+basePath: /
+host: localhost:8080
+info:
+  contact: {}
+  description: Soundproof service API in Go using Gin framework
+  title: Soundproof API
+  version: "1.0"
+paths: {}
+swagger: "2.0"
