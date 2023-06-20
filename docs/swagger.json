@@ -12,6 +12,9 @@
         "/auth/login": {
             "post": {
                 "description": "Takes a User JSON and store in DB. Return message.",
+                "consumes": [
+                    "application/json"
+                ],
                 "produces": [
                     "application/json"
                 ],
@@ -22,7 +25,7 @@
                 "parameters": [
                     {
                         "description": "User JSON",
-                        "name": "user",
+                        "name": "body",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -43,6 +46,9 @@
         "/auth/signup": {
             "post": {
                 "description": "Takes a User JSON and store in DB. Return message.",
+                "consumes": [
+                    "application/json"
+                ],
                 "produces": [
                     "application/json"
                 ],
@@ -53,7 +59,7 @@
                 "parameters": [
                     {
                         "description": "User JSON",
-                        "name": "user",
+                        "name": "body",
                         "in": "body",
                         "required": true,
                         "schema": {

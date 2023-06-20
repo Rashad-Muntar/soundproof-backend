@@ -36,11 +36,13 @@ info:
 paths:
   /auth/login:
     post:
+      consumes:
+      - application/json
       description: Takes a User JSON and store in DB. Return message.
       parameters:
       - description: User JSON
         in: body
-        name: user
+        name: body
         required: true
         schema:
           $ref: '#/definitions/models.User'
@@ -56,11 +58,13 @@ paths:
       - users
   /auth/signup:
     post:
+      consumes:
+      - application/json
       description: Takes a User JSON and store in DB. Return message.
       parameters:
       - description: User JSON
         in: body
-        name: user
+        name: body
         required: true
         schema:
           $ref: '#/definitions/models.User'

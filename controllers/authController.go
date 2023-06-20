@@ -17,8 +17,9 @@ import (
 // @Summary      Create a new user
 // @Description  Takes a User JSON and store in DB. Return message.
 // @Tags         users
+// @Accept       json
 // @Produce      json
-// @Param        user  body   models.User  true  "User JSON"
+// @Param        body  body   models.User  true  "User JSON"
 // @Success      200   {object}  models.User
 // @Router       /auth/signup [post]
 func Signup(c *gin.Context) {
@@ -56,8 +57,9 @@ func Signup(c *gin.Context) {
 // @Summary      Log a new user in
 // @Description  Takes a User JSON and store in DB. Return message.
 // @Tags         users
+// @Accept       json
 // @Produce      json
-// @Param        user  body      models.User  true  "User JSON"
+// @Param        body  body      models.User  true  "User JSON"
 // @Success      200   {object}  models.User
 // @Router       /auth/login [post]
 func Login(c *gin.Context) {

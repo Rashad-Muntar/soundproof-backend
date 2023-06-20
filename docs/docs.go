@@ -19,6 +19,9 @@ const docTemplate = `{
         "/auth/login": {
             "post": {
                 "description": "Takes a User JSON and store in DB. Return message.",
+                "consumes": [
+                    "application/json"
+                ],
                 "produces": [
                     "application/json"
                 ],
@@ -29,7 +32,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "description": "User JSON",
-                        "name": "user",
+                        "name": "body",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -50,6 +53,9 @@ const docTemplate = `{
         "/auth/signup": {
             "post": {
                 "description": "Takes a User JSON and store in DB. Return message.",
+                "consumes": [
+                    "application/json"
+                ],
                 "produces": [
                     "application/json"
                 ],
@@ -60,7 +66,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "description": "User JSON",
-                        "name": "user",
+                        "name": "body",
                         "in": "body",
                         "required": true,
                         "schema": {
